@@ -27,12 +27,32 @@ namespace Weeky.Behaviors
         private static void CurrentlyInViewChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var ic = (ItemsControl) dependencyObject;
-            var presenter = (ContentPresenter) ic.ItemContainerGenerator.ContainerFromItem(e.NewValue);
+            var newValue = e.NewValue;
+
+            if (ic.IsLoaded)
+            {
+                BringIntoView(ic, newValue);
+            }
+            else
+            {
+                RoutedEventHandler handler = null;
+                handler = (sender, args) =>
+                    {
+                        BringIntoView(ic, newValue);
+                        ic.Loaded -= handler;
+                    };
+                ic.Loaded += handler; 
+            }
+            
+        }
+
+        private static void BringIntoView(ItemsControl ic, object newValue)
+        {
+            var presenter = (ContentPresenter) ic.ItemContainerGenerator.ContainerFromItem(newValue);
             if (presenter != null)
             {
                 presenter.BringIntoView();
             }
-
         }
     }
 }
