@@ -19,6 +19,8 @@ namespace Weeky.Model
             }
         }
 
+        public string Title { get; set; }
+
         private Dictionary<DateTime, Day> _dict = new Dictionary<DateTime, Day>();
 
         public AppState()

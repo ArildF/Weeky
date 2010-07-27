@@ -64,6 +64,18 @@ namespace Weeky
             }
         }
 
+        public string Title
+        {
+            get { return _state.Title; }
+            set
+            {
+                if (_state.Title != value)
+                {
+                    _state.Title = value;
+                    this.OnPropertyChanged(vm => vm.Title);
+                }
+            }
+        }
         public ObservableCollection<DayViewModel> Days
         {
             get { return _days; }

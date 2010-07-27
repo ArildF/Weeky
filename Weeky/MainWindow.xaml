@@ -1,14 +1,15 @@
 ﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Behaviors="clr-namespace:Weeky.Behaviors" xmlns:Converters="clr-namespace:Weeky.Converters" xmlns:TriggerTracingSample="clr-namespace:WpfMentor.TriggerTracingSample" xmlns:local="clr-namespace:Weeky" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Weeky.MainWindow"
-    Title="MainWindow" Height="350" Width="525" WindowStyle="None" mc:Ignorable="d">
+    Title="MainWindow" Height="350" Width="525" WindowStyle="None" mc:Ignorable="d"
+    Behaviors:UIElementBehaviors.DragWindowOnMouseDown="true">
     <Window.Resources>
         <local:MainViewModel x:Key="MainViewModelDataSource" d:IsDataSource="True"/>
     </Window.Resources>
     <Window.DataContext>
         <Binding Mode="OneWay" Source="{StaticResource MainViewModelDataSource}"/>
     </Window.DataContext>
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         <DockPanel.Resources>
             <Converters:BoolToFontWeightConverter x:Key="boolToFontWeightConverter"/>
             <DataTemplate x:Key="dayTemplate">
@@ -79,6 +80,13 @@
             </DataTemplate>
 
         </DockPanel.Resources>
+
+        <Border   DockPanel.Dock="Top">
+            <Grid >
+                <TextBox FontSize="18" Margin="20" Text="{Binding Title}"/>
+            </Grid>
+        </Border>
+
         <ItemsControl x:Name="items" ItemsSource="{Binding Days}" 
                       ItemTemplate="{StaticResource dayTemplate}"
                       Behaviors:ItemsControlBehaviors.CurrentlyInView="{Binding CurrentlyInView}">

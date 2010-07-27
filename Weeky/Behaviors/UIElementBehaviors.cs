@@ -42,5 +42,43 @@ namespace Weeky.Behaviors
                 command.Execute(null);
             }
         }
+
+        public static readonly DependencyProperty DragWindowOnMouseDownProperty =
+            DependencyProperty.RegisterAttached("DragWindowOnMouseDown", typeof (bool),
+                                                typeof (UIElementBehaviors),
+                                                new PropertyMetadata(DragWindowOnMouseDownPropertyChanged));
+
+
+        public static void SetDragWindowOnMouseDown(UIElement element, bool value)
+        {
+            element.SetValue(DragWindowOnMouseDownProperty, value);
+        }
+
+        public static bool GetDragWindowOnMouseDown(UIElement element)
+        {
+            return (bool) element.GetValue(DragWindowOnMouseDownProperty);
+        }
+
+        private static void DragWindowOnMouseDownPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            var element = (UIElement) dependencyObject;
+            element.MouseDown -= ElementOnMouseDown;
+
+            if ((bool)e.NewValue)
+            {
+                element.MouseDown += ElementOnMouseDown;
+            }
+        }
+
+        private static void ElementOnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            var element = (DependencyObject) mouseButtonEventArgs.Source;
+            while (!(element is Window))
+            {
+                element = LogicalTreeHelper.GetParent(element);
+            }
+
+            ((Window)element).DragMove();
+        }
     }
 }
