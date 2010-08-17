@@ -6,13 +6,13 @@
     Behaviors:UIElementBehaviors.DragWindowOnMouseDown="true">
     <Window.Resources>
         <local:MainViewModel x:Key="MainViewModelDataSource" d:IsDataSource="True"/>
-    	<Style x:Key="borderLessTextBox" BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
+        <Style x:Key="borderLessTextBox" BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="IsFocused" Value="False">
                     <Setter Property="BorderBrush" Value="{x:Null}"/>
                 </Trigger>
             </Style.Triggers>
-    	</Style>
+        </Style>
     </Window.Resources>
     <Window.DataContext>
         <Binding Mode="OneWay" Source="{StaticResource MainViewModelDataSource}"/>
@@ -21,65 +21,102 @@
         <DockPanel.Resources>
             <Converters:BoolToFontWeightConverter x:Key="boolToFontWeightConverter"/>
             <DataTemplate x:Key="dayTemplate">
+                <DataTemplate.Resources>
+                    <Storyboard x:Key="Storyboard1">
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="symbols" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.85"/>
+                            <SplineDoubleKeyFrame KeyTime="00:00:00.0390000" Value="1.45"/>
+                            <SplineDoubleKeyFrame KeyTime="00:00:00.1690000" Value="1" KeySpline="0.25,0,1,1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="symbols" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.85"/>
+                            <SplineDoubleKeyFrame KeyTime="00:00:00.0390000" Value="1.35"/>
+                            <SplineDoubleKeyFrame KeyTime="00:00:00.1690000" Value="1" KeySpline="0.25,0,1,1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </DataTemplate.Resources>
                 <Grid x:Name="_border" Behaviors:UIElementBehaviors.SingleClickCommand="{Binding ToggleStateCommand}">
                     <DockPanel Margin="20" LastChildFill="True">
-                           
+
                         <TextBlock DockPanel.Dock="Bottom" FontSize="8" Text="{Binding Date, StringFormat=ddd}" TextAlignment="Right"/>
                         <TextBlock DockPanel.Dock="Top" FontSize="8" Text="{Binding Date, StringFormat=MMM}" TextAlignment="Right"/>
                         <TextBlock Text="{Binding MainText}" 
                                    FontWeight="{Binding IsToday, Converter={StaticResource boolToFontWeightConverter}}" TextAlignment="Center" FontSize="21.333"/>
                     </DockPanel>
-                    <Viewbox Stretch="Uniform" x:Name="redCross" Visibility="Hidden" Opacity="0.5">
-                        <Canvas x:Name="LayoutRoot" Width="625.6" Height="444">
-                            <Rectangle Fill="#FFEB3030" Stroke="Black" Width="85.048" Height="443.2" RenderTransformOrigin="0.51,0.5" Canvas.Left="269.986" Canvas.Top="0.8">
-                                <Rectangle.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleX="50"/>
-                                        <RotateTransform/>
-                                        <TranslateTransform X="0.001"/>
-                                    </TransformGroup>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                            <Rectangle Fill="#FFEB3030" Stroke="Black" RenderTransformOrigin="0.51,0.5" Width="85.048" Height="443.2" Canvas.Left="269.986" Canvas.Top="0.8">
-                                <Rectangle.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleX="-50"/>
-                                        <RotateTransform/>
-                                        <TranslateTransform X="0.001"/>
-                                    </TransformGroup>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </Canvas>
-                    </Viewbox>
-                    <Viewbox x:Name="greenCircle" Visibility="Hidden">
-                        <Canvas Width="100" Height="100">
-                            <Ellipse Stroke="#FF4CC924" Width="100" Height="100" StrokeThickness="10" Opacity="0.5" RenderTransformOrigin="0.5,0.5">
-                                <Ellipse.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Ellipse.RenderTransform>
-                            </Ellipse>
-                        </Canvas>
-                    </Viewbox>
+                    <Grid x:Name="symbols" RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Viewbox Stretch="Uniform" x:Name="redCross" Visibility="Hidden" Opacity="0.5" >
+
+                            <Canvas x:Name="LayoutRoot" Width="625.6" Height="444">
+                                <Rectangle Fill="#FFEB3030" Stroke="Black" Width="85.048" Height="443.2" RenderTransformOrigin="0.51,0.5" Canvas.Left="269.986" Canvas.Top="0.8">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform AngleX="50"/>
+                                            <RotateTransform/>
+                                            <TranslateTransform X="0.001"/>
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                                <Rectangle Fill="#FFEB3030" Stroke="Black" RenderTransformOrigin="0.51,0.5" Width="85.048" Height="443.2" Canvas.Left="269.986" Canvas.Top="0.8">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform AngleX="-50"/>
+                                            <RotateTransform/>
+                                            <TranslateTransform X="0.001"/>
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Canvas>
+                        </Viewbox>
+                        <Viewbox x:Name="greenCircle" Visibility="Hidden">
+                            <Canvas Width="100" Height="100">
+                                <Ellipse Stroke="#FF4CC924" Width="100" Height="100" StrokeThickness="10" Opacity="0.5" RenderTransformOrigin="0.5,0.5">
+                                    <Ellipse.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
                 </Grid>
                 <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsHoliday}" Value="True">
-                            <Setter Property="TextElement.Foreground" Value="Red"/>
-                        </DataTrigger>
+                    <Trigger Property="Visibility" Value="Visible" SourceName="redCross"
+                             TriggerTracingSample:TriggerTracing.TriggerName="BadAnimation"
+            			TriggerTracingSample:TriggerTracing.TraceEnabled="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+                        </Trigger.EnterActions>
+                    </Trigger>
+                    <Trigger Property="Visibility" Value="Visible" SourceName="greenCircle">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+                        </Trigger.EnterActions>
+                    </Trigger>
+                    <DataTrigger Binding="{Binding IsHoliday}" Value="True">
+                        <Setter Property="TextElement.Foreground" Value="Red"/>
+                    </DataTrigger>
 
                     <DataTrigger Binding="{Binding State}" Value="Bad"
-                                 TriggerTracingSample:TriggerTracing.TriggerName="Bad"
-                                 TriggerTracingSample:TriggerTracing.TraceEnabled="True">
+            			TriggerTracingSample:TriggerTracing.TriggerName="Bad"
+            			TriggerTracingSample:TriggerTracing.TraceEnabled="True">
                         <Setter TargetName="redCross" Property="Visibility" Value="Visible"/>
-                        
+
                     </DataTrigger>
-                        
+
                     <DataTrigger Binding="{Binding State}" Value="Good">
                         <Setter TargetName="greenCircle" Property="Visibility" Value="Visible"/>
                     </DataTrigger>
@@ -110,7 +147,7 @@
                     <WrapPanel Behaviors:WrapPanelBehaviors.NumberOfColumns="7" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            
+
         </ItemsControl>
     </DockPanel>
 </Window>
